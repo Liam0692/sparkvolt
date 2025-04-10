@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SparkVolt — Powering the Future</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // 🎨 CORE BRANDING COLORS
+                        sparkvolt: {
+                            background: '#000000',       // Full black ⚫ — general site background
+                            text: '#ffffff',             // Bright white 💡 — primary text color
+                            primary: '#8B5CF6',          // Purple 600 ⚡ — main electric brand color
+                            secondary: '#FACC15',        // Yellow 400 🌞 — contrasty attention grabber
+                            accent: '#3B82F6',           // Blue 500 🌊 — for links/buttons/icons
+                            glow: '#E879F9',             // Pinky neon 💖 — for hover or sparkly effects
+                            wire: '#4B5563',             // Gray 600 🧠 — neutral for wiring diagrams or outlines
+                        },
+
+                        // Utility colours for components, hover, UI, etc.
+                        voltage: {
+                            low: '#10B981',     // Green 500 🌱 — safe, on/working
+                            high: '#EF4444',    // Red 500 ⚠️ — danger, alerts
+                            surge: '#F97316',   // Orange 500 🔥 — hover, active buttons
+                        },
+                    },
+                    fontFamily: {
+                        display: ['Orbitron', 'sans-serif'], // Techy vibe font 🚀
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- ANIMATIONS -->
+    <style>
+        .nav-spark {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #FACC15;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.9;
+            animation: crackleBoom 0.6s ease-in-out forwards;
+        }
+
+        @keyframes crackleBoom {
+            0% {
+                transform: scale(1) translate(0, 0);
+                opacity: 0.9;
+            }
+            100% {
+                transform: scale(0.5) translate(
+                    calc(-20px + 40px * var(--rand-x, 0)),
+                    calc(-20px + 40px * var(--rand-y, 0))
+                );
+                opacity: 0;
+            }
+        }
+        @keyframes boltHueCycle {
+            0% {
+                filter: drop-shadow(0 0 4px #FACC15) hue-rotate(0deg);
+            }
+            25% {
+                filter: drop-shadow(0 0 6px #8B5CF6) hue-rotate(90deg);
+            }
+            50% {
+                filter: drop-shadow(0 0 8px #3B82F6) hue-rotate(180deg);
+            }
+            75% {
+                filter: drop-shadow(0 0 6px #E879F9) hue-rotate(270deg);
+            }
+            100% {
+                filter: drop-shadow(0 0 4px #FACC15) hue-rotate(360deg);
+            }
+        }
+
+        .animate-bolt {
+            animation: boltHueCycle 5s ease-in-out infinite
+        }
+
+        @keyframes sparkFlicker {
+            0%, 100% {
+                transform: scale(1) translateY(0);
+                opacity: 0.8;
+            }
+            50% {
+                transform: scale(1.2) translateY(-2px);
+                opacity: 1;
+            }
+        }
+
+        .animate-spark-flicker {
+            animation: sparkFlicker 1.5s ease-in-out infinite;
+        }
+
+        .delay-200 {
+            animation-delay: 0.2s;
+        }
+        
+        .delay-500 {
+            animation-delay: 0.5s;
+        }
+
+        @keyframes navGlowPulse {
+            0%, 100% {
+                text-shadow: 0 0 0px #FACC15;
+            }
+            50% {
+                text-shadow: 0 0 8px #FACC15, 0 0 15px #FACC15;
+            }
+        }
+
+        .nav-hover-effect:hover {
+            color: #FACC15;
+            animation: navGlowPulse 1.2s ease-in-out infinite;
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 1s ease-out forwards;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% {
+                box-shadow: 0 0 0px #FACC15;
+            }
+            50% {
+                box-shadow: 0 0 15px #FACC15;
+            }
+        }
+
+        .glow-pulse {
+            animation: pulseGlow 2s infinite;
+        }
+    </style>
+</head>
+<body class="bg-black text-white min-h-screen flex flex-col justify-between">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-black/90 backdrop-blur-md shadow-lg border-b border-sparkvolt-wire">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+
+            <!-- Logo & Title -->
+            <div class="flex items-center gap-4">
+                <!-- Logo Icon -->
+                <div class="w-10 h-10">
+                    <!-- Inserted SVG Logo -->
+                    <svg class="animate-bolt" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="48" fill="black" stroke="white" stroke-width="4"/>
+                        <path d="M42 10 L30 55 H45 L28 90 L70 40 H55 L72 10 Z"
+                              fill="url(#voltGradient)" />
+                        <defs>
+                            <linearGradient id="voltGradient" x1="0" y1="0" x2="100" y2="100">
+                                <stop offset="0%" stop-color="#8B5CF6" />
+                                <stop offset="50%" stop-color="#FACC15" />
+                                <stop offset="100%" stop-color="#3B82F6" />
+                             </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <!-- Brand Name -->
+                <a href="#" class="text-white text-2xl font-extrabold tracking-wide transition-all duration-300 ease-in-out hover:text-sparkvolt-secondary hover:drop-shadow-[0_0_12px_#FACC15] hover:scale-105 cursor-pointer">
+                    SparkVolt
+                </a>
+            </div>
+
+            <!-- Navigation -->
+            <nav>
+                <ul class="flex gap-8 text-sm font-semibold text-sparkvolt-text">
+                    <li class="relative group">
+                        <a href="#" class="transition hover:text-sparkvolt-secondary hover:drop-shadow-[0_0_5px_#FACC15] nav-hover-effect transition">Home</a>
+                    </li>
+                    <li class="relative group">
+                        <a href="#" class="transition hover:text-sparkvolt-secondary hover:drop-shadow-[0_0_5px_#FACC15] nav-hover-effect transition">Products</a>
+                    </li>
+                    <li class="relative group">
+                        <a href="#" class="transition hover:text-sparkvolt-secondary hover:drop-shadow-[0_0_5px_#FACC15] nav-hover-effect transition">About</a>
+                    </li>
+                    <li class="relative group">
+                        <a href="#" class="transition hover:text-sparkvolt-secondary hover:drop-shadow-[0_0_5px_#FACC15] nav-hover-effect transition">Contact</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative bg-sparkvolt-background text-sparkvolt-text min-h-[80vh] flex items-center justify-center px-6 py-20 overflow-hidden">
+
+        <!--  💥 Particle Canvas Background -->
+        <canvas id="sparkCanvas" class="absolute inset-0 w-full h-full z-0 pointer-events-none"></canvas>
+
+        <div class="relative z-10 text-center space-y-6">
+
+            <!-- 🔥 Brand Name -->
+            <h1 class="text-5xl md:text-6xl font-extrabold tracking-wide text-sparkvolt-primary drop-shadow-[0_0_25px_#8B5CF6] animate-fade-in-up">
+                SparkVolt
+            </h1>
+
+            <!-- ⚡ Tagline -->
+            <p class="text-xl md:text-2xl text-sparkvolt-secondary font-medium drop-shadow-[0_0_10px_#FACC15] animate-fade-in-up" style="animation-delay: 0.3s;">
+                Powering the future. Sustainably.
+            </p>
+
+            <!-- 🎯 Call-to-Actions -->
+            <div class="flex flex-col md:flex-row items-center justify-center gap-4 pt-8 animate-fade-in-up" style="animation-delay: 0.6s;">
+                <a href="#" class="glow-pulse px-6 py-3 rounded-md bg-sparkvolt-primary text-black font-bold shadow-lg hover:bg-voltage-surge hover:text-white transition">
+                    ⚡ Explore Products
+                </a>
+                <a href="#" class="px-6 py-3 rounded-md border border-sparkvolt-wire text-sparkvolt-text font-semibold hover:border-sparkvolt-secondary hover:text-sparkvolt-secondary transition">
+                    🔍 Learn More
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- THE INTRO SECTION OF ELECTRIFIED GLORY™ -->
+    <section class="bg-black text-sparkvolt-text px-6 py-20">
+        <div class="max-w-4xl mx-auto text-center space-y-8">
+
+            <!-- Title -->
+            <h2 class="text-4xl md:text-5xl font-display font-bold text-sparkvolt-accent drop-shadow-[0_0_15px_#3B82F6] animate-fade-in-up relative inline-block">
+                Welcome to
+                <span class="relative inline-block z-10 px-2">
+                    <span class="relative z-10 drop-shadow-[0_0_4px_black]">
+                        SparkVolt
+                    </span>
+
+                    <svg class="absolute top-[75%] left-1/2 w-28 h-28 -translate-x-1/2 -translate-y-1/2 rotate-[20deg] z-0 opacity-50 pointer-events-none"
+                         viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M42 10 L30 55 H45 L28 90 L70 40 H55 L72 10 Z"
+                              fill="url(#voltMiniGradient)" />
+                        <defs>
+                            <linearGradient id="voltMiniGradient" x1="0" y1="0" x2="100" y2="100">
+                                <stop offset="0%" stop-color="#FACC15" />
+                                <stop offset="100%" stop-color="#8B5CF6" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+
+                    <!-- ✨ Glowy Sparkle Particles -->
+                    <span class="absolute top-[-10%] left-[35%] w-2 h-2 rounded-full bg-sparkvolt-secondary opacity-80 animate-spark-flicker"></span>
+                    <span class="absolute top-[-25%] left-[70%] w-1.5 h-1.5 rounded-full bg-sparkvolt-primary opacity-80 animate-spark-flicker delay-200"></span>
+                    <span class="absolute top-[115%] left-[48%] w-1.5 h-1.5 rounded-full bg-sparkvolt-glow opacity-80 animate-spark-flicker delay-500"></span>                  
+                </span>
+            </h2>
+
+            <!-- Fake startup vision statement lol -->
+            <p class="text-lg md:text-xl text-gray-300 leading-relaxed animate-fade-in-up" style="animation-delay: 0.3s;">
+                At SparkVolt, we're not just lighting up homes—we're reigniting a revolution.
+                Blending cutting-edge tech with eco-conscious design, we engineer components that empower your smart home to think, adapt, and <span class="italic">look absolutely stunning while doing it</span>.
+            </p>
+
+            <!-- Bonus Vision Quote 😂 -->
+            <p class="italic text-sparkvolt-secondary text-base md:text-lg animate-fade-in-up" style="animation-delay: 0.6s;">
+                "Because the future deserves better lighting." — Someone from our fake R&D department
+            </p>
+
+        </div>
+    </section>
+
+    <!-- Words We Like! -->
+    <section class="bg-black text-sparkvolt-secondary py-4">
+        <div class="text-center text-lg font-display font-medium tracking-wide">
+            <span id="rotatingWord" class="transition-opacity duration-500 ease-in-out opacity-100">
+                Voltage
+            </span>
+        </div>
+    </section>
+
+    <!-- FAKE STATS -->
+    <section class="bg-black text-white py-20">
+        <div class="max-w-5xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+
+            <!-- Products Sold -->
+            <div>
+                <div id="productsSold" 
+                     class="text-4xl font-bold font-display text-sparkvolt-primary"
+                     data-target="48294">
+                    0
+                </div>
+                <p class="mt-2 text-sparkvolt-secondary">Products Sold</p>    
+            </div>
+            
+            <!-- Countries Zapped -->
+            <div>
+                <div id="countriesZapped"
+                     class="text-4xl font-bold font-display text-sparkvolt-primary"
+                     data-target="37">
+                    0
+                </div>
+                <p class="mt-2 text-sparkvolt-secondary">Countries Zapped</p>
+            </div>
+  
+            <!-- Lightbulbs Installed -->
+            <div>
+                <div id="lightbulbs"
+                     class="text-4xl font-bold font-display text-sparkvolt-primary"
+                     data-target="183920">
+                    0
+                </div>
+                <p class="mt-2 text-sparkvolt-secondary">Lightbulbs Enlightened</p>
+            </div>
+  
+            <!-- Cups of Coffee -->
+            <div>
+                <div id="coffees"
+                     class="text-4xl font-bold font-display text-sparkvolt-primary"
+                     data-target="712">
+                    0
+                </div>
+                <p class="mt-2 text-sparkvolt-secondary">Coffees Consumed</p>
+            </div>  
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="p-4 text-center text-xs text-gray-500 border-t border-gray-700">
+        &copy; 2025 SparkVolt — All sparks reserved 
+    </footer>
+
+    <script>
+        // ========== ⚡ NAVBAR PARTICLES ==========
+        const navItems = document.querySelectorAll('nav li');
+
+        navItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                // Create 3 little particles 💫
+                for (let i = 0; i < 3; i++) {
+                    const particle = document.createElement('span');
+                    particle.classList.add('nav-spark');
+                    particle.style.left = `${Math.random() * 100}%`;
+                    particle.style.top = `${Math.random() * 100}%`;
+                    item.appendChild(particle);
+
+                    // Remove after animation ends
+                    setTimeout(() => {
+                        particle.remove();
+                    }, 600);
+                }
+            });
+        });
+        const canvas = document.getElementById('sparkCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // ========== 💫 Ambient Spark Class (Chill Mode) ==========
+        class Spark {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.alpha = Math.random() * 0.3 + 0.1;
+                this.size = Math.random() * 1 + 0.5;
+                this.color = Math.random() > 0.5 ? '#FACC15' : '#8B5CF6';
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.alpha -= 0.01;
+                if (this.alpha <= 0) this.reset();
+            }
+
+            draw() {
+                ctx.globalAlpha = this.alpha;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            }
+        }
+
+        // Create the ambient sparks
+        const sparks = Array.from({ length: 60 }, () => new Spark());
+
+        // ========== ⚡ SPECIAL ZAP ATTACK PARTICLES ==========
+        const specialSparks = [];
+
+        function spawnSpecialSpark() {
+            for (let i = 0; i < 2; i++) {
+                specialSparks.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 2,  // more intense speed
+                    vy: (Math.random() - 0.5) * 2,
+                    alpha: 1,
+                    size: Math.random() * 4 + 2,
+                    color: Math.random() > 0.5 ? '#FACC15' : '#8B5CF6'
+                });
+            }
+        }
+
+        // Periodically summon electric chaos ⚡
+        setInterval(spawnSpecialSpark, 5000);  // Every 5 seconds
+
+        // ========== 🌀 MAIN ANIMATION LOOP ==========
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Ambient chill sparks
+            sparks.forEach(spark => {
+                spark.update();
+                spark.draw();
+            });
+
+            // Dramatic special sparks
+            for (let i = specialSparks.length - 1; i >= 0; i--) {
+                const s = specialSparks[i];
+                s.x += s.vx;
+                s.y += s.vy;
+                s.alpha -= 0.02;
+
+                ctx.globalAlpha = s.alpha;
+                ctx.fillStyle = s.color;
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.globalAlpha = 1;
+
+                // Clean up when faded
+                if (s.alpha <= 0) {
+                    specialSparks.splice(i, 1);
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // ========== ROTATING WORDS ==========
+        const words = [
+            "Voltage ⚡",
+            "Sustainability 🌱",
+            "Lightbulbs 💡",
+            "Smart Plugs 🔌",
+            "Futuristic Lighting 🌈",
+            "Eco Innovation 🌍",
+            "Ambience Enhancement ✨",
+            "Circuit Zen Mode 🧘‍♂️",
+            "Energy You Can Vibe With 🔋",
+            "Glorious Fake Startup Vibes™ 💅"
+        ];
+
+        const wordEl = document.getElementById("rotatingWord");
+        let currentIndex = 0;
+
+        setInterval(() => {
+            // Fade out
+            wordEl.classList.remove("opacity-100");
+            wordEl.classList.add("opacity-0");
+
+            setTimeout(() => {
+                // Change word
+                currentIndex = (currentIndex + 1) % words.length;
+                wordEl.textContent = words[currentIndex];
+
+                // Fade in
+                wordEl.classList.remove("opacity-0");
+                wordEl.classList.add("opacity-100");
+            }, 500);
+        }, 3000);  // Change word every three seconds
+
+        // ========== COUNT-UP ANIMATION ==========
+        const animatedCounters = new Set();
+
+        function countUp(counter) {
+            const id = counter.id;
+
+            // If counter is already animated, do nothing
+            if (animatedCounters.has(id)) return;
+
+            animatedCounters.add(id);
+
+            const target = +counter.getAttribute('data-target');
+            let count = 0;
+            const increment = target / 170;  // control speed here
+
+            const update = () => {
+                count += increment;
+
+                if (count < target) {
+                    counter.textContent = Math.floor(count);
+                    requestAnimationFrame(update);
+                } else {
+                    counter.textContent = target.toLocaleString();  // Add commas 🎉
+                }
+            };
+
+            update();
+        }
+
+        // ========== SCROLL ACTIVATION PER COUNTER ==========
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    countUp(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.5  // trigger when 50% visible
+        });
+
+        // Attach the observer to each counter
+        document.querySelectorAll('[data-target]').forEach(counter => {
+            observer.observe(counter);
+        });
+    </script>
+</body>
+</html>
